@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de QR y Asistencia</title>
+</head>
+<body>
+
+    <h2>Generar Código QR</h2>
+    <input type="text" id="nombre" placeholder="Nombre del alumno">
+    <button onclick="generarQR()">Generar QR</button>
+    
+    <div id="qrContainer"></div>
+
+    <h2>Lista de Asistencia</h2>
+    <button onclick="exportarExcel()">Exportar a Excel</button>
+    <table id="asistenciaTable" border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+        </tr>
+    </table>
+
+    <!-- Librerías en línea -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
