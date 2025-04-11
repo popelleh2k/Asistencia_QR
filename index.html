@@ -3,80 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de QR y Asistencia</title>
+    <title>Asistencia QR</title>
 </head>
 <body>
+    <h1>Registro de Asistencia</h1>
 
-    <h2>Generar Código QR</h2>
-    <input type="text" id="nombre" placeholder="Nombre del alumno">
-    <button onclick="generarQR()">Generar QR</button>
-    
-    <div id="qrContainer"></div>
+    <!-- Botón para abrir el escáner -->
+    <button id="scanBtn">Escanear QR</button>
 
-    <h2>Lista de Asistencia</h2>
-    <button onclick="exportarExcel()">Exportar a Excel</button>
-    <table id="asistenciaTable" border="1">
-        <tr>
-            <th>Nombre</th>
-            <th>Fecha</th>
-        </tr>
-    </table>
+    <!-- Video para escaneo (oculto hasta que se active) -->
+    <video id="video" width="300" height="200" style="display: none;" autoplay></video>
 
-    <!-- Librerías en línea -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="app.js"></script>
+    <!-- Lista de asistencias -->
+    <h3>Asistencias registradas:</h3>
+    <ul id="scannedList"></ul>
 
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lector QR</title>
-</head>
-<body>
-    <h1>Escanea tu código QR</h1>
-    <video id="video" width="300" height="200" autoplay></video>
-    <canvas id="canvas" hidden></canvas>
-    <p id="result">Esperando escaneo...</p>
+    <!-- Botón para descargar asistencia -->
+    <button id="downloadBtn">Descargar Excel</button>
 
+    <!-- Librerías necesarias -->
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.3.1/dist/jsQR.min.js"></script>
-    <script>
-        const video = document.getElementById("video");
-        const canvas = document.getElementById("canvas");
-        const context = canvas.getContext("2d");
-        const resultText = document.getElementById("result");
-
-        async function startCamera() {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-            video.srcObject = stream;
-            requestAnimationFrame(scanQRCode);
-        }
-
-        function scanQRCode() {
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
-
-                if (code) {
-                    resultText.textContent = `Código detectado: ${code.data}`;
-                } else {
-                    requestAnimationFrame(scanQRCode);
-                }
-            } else {
-                requestAnimationFrame(scanQRCode);
-            }
-        }
-
-        startCamera();
-    </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-<ul id="scannedList"></ul>
-<button id="downloadBtn">Descargar Asistencia</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
